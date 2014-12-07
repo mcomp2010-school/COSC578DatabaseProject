@@ -1,6 +1,5 @@
 flask
 flask-login
-flask-openid
 flask-mail
 flask-sqlalchemy
 sqlalchemy-migrate
