@@ -25,28 +25,24 @@
                         <table class="table table-bordered table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>First name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Address</th>
-                                    <th>City</th>
-                                    <th>State</th>
-                                    <th>Zip</th>
+                                    <th>Task Name</th>
+                                    <th>Project Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Resource ID</th>
                                     <th>Command</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for resource in resources %}
+                            {% for task in tasks %}
 							<tr>
-								<td>{{ resource.firstName }}</td>
-								<td>{{ resource.lastName }}</td>
-								<td>{{ resource.phoneNumber }}</td>
-								<td>{{ resource.address }}</td>
-								<td>{{ resource.city}}</td>
-								<td>{{ resource.state }}</td>
-								<td>{{ resource.zip }}</td>
-								<td><a href="/project/{{ resource.id }}" class="btn btn-default">Show</href>
-									<a href="/project/{{ resource.id }}?edit" class="btn btn-default">Edit</href></td>
+								<td>{{ task.taskName }}</td>
+								<td>{{ task.projectName }}</td>
+								<td>{{ task.startDate }}</td>
+								<td>{{ task.endDate }}</td>
+								<td>{{ task.resourceId }}</td>
+								<td><a href="/task/{{ task.id }}" class="btn btn-default">Show</href>
+									<a href="/task/{{ task.id }}?edit" class="btn btn-default">Edit</href></td>
 							</tr>
 							{% endfor %}
                             </tbody>
@@ -54,7 +50,7 @@
                     </div>
                     
                     <div class="text-right">
-                        <a href="/project/new">Add Project<i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="/task/new">Add Task<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

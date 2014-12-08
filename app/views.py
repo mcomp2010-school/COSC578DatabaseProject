@@ -23,7 +23,7 @@ from wtforms.form import FormMeta
 # PROJECT
 ##
 @app.route('/', methods=['GET'])
-@login_required
+#@login_required
 def index():
     projects = models.Project.query.all()
     
@@ -32,7 +32,7 @@ def index():
                            projects=projects)
 
 @app.route('/project/<id>',methods=['GET','POST'])
-@login_required
+#@login_required
 def edit_project(id):
     edit = request.args.get('edit') is not None
     project = models.Project.query.get(int(id))
@@ -49,7 +49,7 @@ def edit_project(id):
             return redirect("/")
     
     if edit:
-        button = "Update Resource"
+        button = "Update Project"
     else: 
         button = ""
         
@@ -59,9 +59,11 @@ def edit_project(id):
                        button=button)
   
 @app.route('/project/new',methods=['GET','POST'])
-@login_required
+#@login_required
 def show_new_project():
     form = forms.ProjectForm()
+    form.manager.choices = [(g.id, g.emailAddress) for g in models.Resource.query.all()]
+    
     if form.validate_on_submit():
         project = models.Project()
         form.populate_obj(project)
@@ -77,7 +79,7 @@ def show_new_project():
 # Task
 ##
 @app.route('/task', methods=['GET'])
-@login_required
+#@login_required
 def task():
     tasks = models.Task.query.all()
     return render_template('/task/index.html',
@@ -85,7 +87,7 @@ def task():
                            tasks=tasks)
 
 @app.route('/task/<id>',methods=['GET','POST'])
-@login_required
+#@login_required
 def edit_task(id):
     edit = request.args.get('edit') is not None
     resource = models.Task.query.get(int(id))
@@ -102,7 +104,7 @@ def edit_task(id):
             return redirect("/task")
     
     if edit:
-        button = "Update Resource"
+        button = "Update Task"
     else: 
         button = ""
         
@@ -112,7 +114,7 @@ def edit_task(id):
                        button=button)
   
 @app.route('/task/new',methods=['GET','POST'])
-@login_required
+#@login_required
 def show_new_task():
     form = forms.TaskForm()
     if form.validate_on_submit():
@@ -120,7 +122,7 @@ def show_new_task():
         form.populate_obj(task)
         db.session.add(task)
         db.session.commit()
-        return redirect("/")
+        return redirect("/task")
     else:
         return render_template('task/new.html',
                                form=form,
@@ -130,7 +132,7 @@ def show_new_task():
 
 ##########################################################
 @app.route('/resource', methods=['GET'])
-@login_required
+#@login_required
 def resource():
     resources = models.Resource.query.all()
     return render_template('/resource/index.html',
@@ -138,7 +140,7 @@ def resource():
                            resources=resources)
 
 @app.route('/resource/<id>',methods=['GET','POST'])
-@login_required
+##@login_required
 def edit_resource(id):
     edit = request.args.get('edit') is not None
     resource = models.Resource.query.get(int(id))
@@ -165,7 +167,7 @@ def edit_resource(id):
                        button=button)
   
 @app.route('/resource/new',methods=['GET','POST'])
-@login_required
+#@login_required
 def show_new_resource():
     form = forms.ResourceForm()
     if form.validate_on_submit():
@@ -173,16 +175,16 @@ def show_new_resource():
         form.populate_obj(resource)
         db.session.add(resource)
         db.session.commit()
-        return redirect("/")
+        return redirect("/resource")
     else:
         return render_template('resource/new.html',
                                form=form,
-                               button="Add New Task")
+                               button="Add New Resource")
         
 ####################################
 
 @app.route('/timesheet', methods=['GET','POST'])
-@login_required
+#@login_required
 def timesheets():
     return render_template('/timesheet/index.html',
                            title='Home')
@@ -224,7 +226,7 @@ def load_user(id):
     return models.Resources.query.get(int(id))
 
 @app.route("/logout")
-@login_required
+#@login_required
 def logout():
     logout_user()
     return redirect('/login')

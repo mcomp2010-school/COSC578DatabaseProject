@@ -27,16 +27,13 @@
                 
   
   <form action="{{url}}" method=post>
-
     {{ form.hidden_tag() }}
  <p>
     {{ form.projectName.label }}
     {{ form.projectName }}
  <p>
     {{ form.projectStartDate.label }}
-    
     {{ form.projectStartDate }}  mm/dd/yyyy
-   
    
  <p>
     {{ form.projectEndDate.label }}

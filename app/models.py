@@ -22,11 +22,10 @@ class Resource(db.Model):
     position = db.Column(db.String(120))
     team = db.Column(db.String(120))
     role = db.Column(db.String(120))
-    email = db.Column(db.String(120), unique=True)
+    emailAddress = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
     
-    def __init__(self, name=None, email=None):
-        self.firstName = name
+    def __init__(self,email=None):
         self.email = email
         
     def is_authenticated(self):
@@ -39,7 +38,7 @@ class Resource(db.Model):
         return False
 
     def get_id(self):
-        return str(self.id)
+        return str(self.emailAddress)
         
     def set_password(self, password):
         self.pwdhash = generate_password_hash(password)
@@ -48,7 +47,7 @@ class Resource(db.Model):
         return check_password_hash(self.pwdhash, password)
                                
     def __repr__(self):
-        return '<Resource %r>' % (self.email)
+        return '<Resource %r>' % (self.emailAddress)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -58,15 +57,14 @@ class Project(db.Model):
     manager = db.Column(db.Integer, ForeignKey(Resource.id))
     
 class Task(db.Model):
-    #Create Table Tasks
-    taskName = db.Column(db.String(120), primary_key=True)
-    projectName = db.Column(db.String(120), primary_key = True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    taskName = db.Column(db.String(120))
+    projectName = db.Column(db.String(120))
     startDate= db.Column(db.Date)
     endDate = db.Column(db.Date)
-    empID = db.Column(db.Integer, ForeignKey(Resource.id))
+    resourceId = db.Column(db.Integer, ForeignKey(Resource.id))
     
 class Timesheet(db.Model):
-    #Create Table Timesheets
     weekStart = db.Column(db.Date, primary_key=True, unique=True)
     empID = column(db.Integer, ForeignKey(Resource.id))
     projName = column(db.String(120), ForeignKey(Project.projectName))
