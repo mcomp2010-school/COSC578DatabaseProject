@@ -22,31 +22,6 @@ class Resource(db.Model):
     role = db.Column(db.String(120))
     password = db.Column(db.String(120))
     
-class Projects(db.Model):
-    #Create Table Projects
-    projectName = db.Column(db.String(120), primary_key = True, unique=True)
-    projectStartDate = db.Column(db.date)
-    projectEndDate = db.Column(db.date)
-    manager = db.Column(Integer, ForeignKey(Resources.id))
-    
-class Tasks(db.Model):
-    #Create Table Tasks
-    taskName = db.column(String(120), primary_key=True)
-    projectName = db.column(String(120), primary_key = True, ForeignKey(Projects.projectName))
-    startDate= db.column(Date)
-    endDate = db.column(Date)
-    empID = db.column(Integer, ForeignKey(Resources.id))
-                            
-class Timesheets(db.Model):
-    #Create Table Timesheets
-    weekStart = db.Column(db.date, primary_key=True, unique=True)
-    empID = column(Integer, ForeignKey(Resources.id))
-    projName = column(String(120), ForeignKey(Projects.projectName))
-    taskName = column(String(120), ForeignKey(Tasks.taskName), unique = True)
-    hoursWorked = column(Integer)
-    
-    
-    
     def is_authenticated(self):
         return True
 
@@ -67,3 +42,31 @@ class Timesheets(db.Model):
                                
     def __repr__(self):
         return '<Resource %r>' % (self.lastName)
+
+    
+class Project(db.Model):
+    #Create Table Projects
+    projectName = db.Column(db.String(120), primary_key = True, unique=True)
+    projectStartDate = db.Column(db.Date)
+    projectEndDate = db.Column(db.Date)
+    manager = db.Column(db.Integer, ForeignKey(Resource.id))
+    
+class Task(db.Model):
+    #Create Table Tasks
+    taskName = db.Column(db.String(120), primary_key=True)
+    projectName = db.Column(db.String(120), primary_key = True)
+    startDate= db.Column(db.Date)
+    endDate = db.Column(db.Date)
+    empID = db.Column(db.Integer, ForeignKey(Resource.id))
+                            
+class Timesheet(db.Model):
+    #Create Table Timesheets
+    weekStart = db.Column(db.Date, primary_key=True, unique=True)
+    empID = column(db.Integer, ForeignKey(Resource.id))
+    projName = column(db.String(120), ForeignKey(Project.projectName))
+    taskName = column(db.String(120), ForeignKey(Task.taskName))
+    hoursWorked = column(db.Integer)
+    
+    
+    
+   
