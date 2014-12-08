@@ -47,7 +47,15 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 
+                     {% if current_user.is_authenticated() %}
+					  {{ current_user.lastName }}
+					{% endif %}
+                    
+                     <b class="caret"></b></a>
+                    
+                   
+                    
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -68,16 +76,16 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li {% if 'project' == active_page %} class="active"{% endif%}>
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i>Projects</a>
                     </li>
-                    <li>
+                    <li {% if 'task' == active_page %} class="active"{% endif%}>
                         <a href="/task"><i class="fa fa-fw fa-bar-chart-o"></i> Tasks </a>
                     </li>
-                    <li>
+                    <li {% if 'resource' == active_page %} class="active"{% endif%}>
                         <a href="/resource"><i class="fa fa-fw fa-table"></i> Resources </a>
                     </li>
-                    <li>
+                    <li {% if 'timesheet' == active_page %} class="active"{% endif%}>
                         <a href="/timesheet"><i class="fa fa-fw fa-edit"></i> Timesheets </a>
                     </li>
                 </ul>

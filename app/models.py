@@ -1,9 +1,11 @@
 from app import db
 from sqlalchemy.orm.relationships import foreign
 from sqlalchemy.sql.expression import column
-from sqlalchemy.sql.schema import ForeignKey, PrimaryKeyConstraint
+from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql.schema import PrimaryKeyConstraint
 
-from werkzeug import generate_password_hash, check_password_hash
+from werkzeug import generate_password_hash
+from werkzeug import check_password_hash
 
 class Resource(db.Model):
     #CREATE TABLE ROCUE
@@ -20,12 +22,12 @@ class Resource(db.Model):
     position = db.Column(db.String(120))
     team = db.Column(db.String(120))
     role = db.Column(db.String(120))
+    email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
     
     def __init__(self, name=None, email=None):
         self.firstName = name
-        self.lastName = email
-        
+        self.email = email
         
     def is_authenticated(self):
         return True
@@ -46,7 +48,7 @@ class Resource(db.Model):
         return check_password_hash(self.pwdhash, password)
                                
     def __repr__(self):
-        return '<Resource %r>' % (self.lastName)
+        return '<Resource %r>' % (self.email)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)

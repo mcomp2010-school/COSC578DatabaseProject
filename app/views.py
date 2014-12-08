@@ -19,18 +19,11 @@ from app import models
 from wtforms.form import FormMeta
 #from models import Resources
 
-@app.before_request
-def before_request():
-    g.user = current_user
-    
-@lm.user_loader
-def load_user(id):
-    return models.Resources.query.get(int(id))
-
 ##
 # PROJECT
 ##
 @app.route('/', methods=['GET'])
+@login_required
 def index():
     projects = models.Project.query.all()
     
@@ -39,6 +32,7 @@ def index():
                            projects=projects)
 
 @app.route('/project/<id>',methods=['GET','POST'])
+@login_required
 def edit_project(id):
     edit = request.args.get('edit') is not None
     project = models.Project.query.get(int(id))
@@ -65,6 +59,7 @@ def edit_project(id):
                        button=button)
   
 @app.route('/project/new',methods=['GET','POST'])
+@login_required
 def show_new_project():
     form = forms.ProjectForm()
     if form.validate_on_submit():
@@ -82,6 +77,7 @@ def show_new_project():
 # Task
 ##
 @app.route('/task', methods=['GET'])
+@login_required
 def task():
     tasks = models.Task.query.all()
     return render_template('/task/index.html',
@@ -89,6 +85,7 @@ def task():
                            tasks=tasks)
 
 @app.route('/task/<id>',methods=['GET','POST'])
+@login_required
 def edit_task(id):
     edit = request.args.get('edit') is not None
     resource = models.Task.query.get(int(id))
@@ -115,6 +112,7 @@ def edit_task(id):
                        button=button)
   
 @app.route('/task/new',methods=['GET','POST'])
+@login_required
 def show_new_task():
     form = forms.TaskForm()
     if form.validate_on_submit():
@@ -132,6 +130,7 @@ def show_new_task():
 
 ##########################################################
 @app.route('/resource', methods=['GET'])
+@login_required
 def resource():
     resources = models.Resource.query.all()
     return render_template('/resource/index.html',
@@ -139,6 +138,7 @@ def resource():
                            resources=resources)
 
 @app.route('/resource/<id>',methods=['GET','POST'])
+@login_required
 def edit_resource(id):
     edit = request.args.get('edit') is not None
     resource = models.Resource.query.get(int(id))
@@ -165,6 +165,7 @@ def edit_resource(id):
                        button=button)
   
 @app.route('/resource/new',methods=['GET','POST'])
+@login_required
 def show_new_resource():
     form = forms.ResourceForm()
     if form.validate_on_submit():
@@ -181,6 +182,7 @@ def show_new_resource():
 ####################################
 
 @app.route('/timesheet', methods=['GET','POST'])
+@login_required
 def timesheets():
     return render_template('/timesheet/index.html',
                            title='Home')
@@ -188,16 +190,41 @@ def timesheets():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    
+    login_user(g.user)
+     
+     
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('index'))
     
     form = forms.LoginForm()
     if form.validate_on_submit():
-        session['remember_me'] = form.remember_me.data
+        
+        session['email_address'] = form.email_address.data
         print("Valid")
+        
+        login_user(g.user)
         
         
     return render_template('login.html', 
                            title='Sign In',
                            form=form)
     
+@lm.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('login'))
+
+@app.before_request
+def before_request():
+    g.user = current_user
+    print(current_user.get_id())
+    
+@lm.user_loader
+def load_user(id):
+    return models.Resources.query.get(int(id))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect('/login')

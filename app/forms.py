@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import StringField
+from wtforms import PasswordField
 from wtforms import DateField
 from wtforms import IntegerField
 from wtforms.ext.appengine.db import model_form
@@ -9,7 +10,8 @@ from wtforms import validators
 from app import models
 
 class LoginForm(Form):
-    last_name = StringField('LastName', validators=[DataRequired()])
+    email_address = StringField('Email Address', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('remember_me', default=False)
     
 class ResourceForm(Form):
@@ -32,4 +34,8 @@ class ProjectForm(Form):
     manager = IntegerField('Manager', validators=[DataRequired()])
 
 class TaskForm(Form):
-    pass
+    taskName = StringField('Project Name', validators=[DataRequired()])
+    projectName = StringField('Project Name', validators=[DataRequired()])
+    startDate = StringField('Start', validators=[DataRequired()])
+    endDate = StringField('End Date', validators=[DataRequired()])
+    empID = StringField('Project Name', validators=[DataRequired()])
