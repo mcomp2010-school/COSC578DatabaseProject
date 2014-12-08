@@ -26,15 +26,13 @@ class ResourceForm(Form):
     team = StringField('Team', validators=[DataRequired()])
     role = StringField('Role', validators=[DataRequired()])
     emailAddress = StringField('Email Address', validators=[DataRequired()])
-    password = StringField('Password')
+    password = PasswordField('Password')
 
 class ProjectForm(Form):
     projectName = StringField('Project Name', validators=[DataRequired()])
     projectStartDate = DateField('Project Start Date',  format='%m/%d/%Y')
     projectEndDate = DateField('Project End Date',  format='%m/%d/%Y')
-    manager = SelectField('Manager', choices=[], validators=[DataRequired()])
-    
-    
+    manager = SelectField('Manager', coerce=int, choices=[], validators=[DataRequired()])
 
 class TaskForm(Form):
     taskName = StringField('Task Name', validators=[DataRequired()])
