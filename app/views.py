@@ -26,25 +26,47 @@ def before_request():
 def load_user(id):
     return models.Resources.query.get(int(id))
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-    u = models.Resources(firstName='john', lastName='john@email.com')
-    db.session.add(u)
-    db.session.commit()
-
-
-    return render_template('index.html',
+    print(request.method == 'GET')
+    
+    if(request.method == 'GET'):
+        pass
+    elif(request.method == 'POST'):
+        u = models.Resource(firstName='john', lastName='john@email.com')
+        # INSERT FIRST
+        
+        db.session.add(u)
+        
+        db.session.commit()
+        
+    return render_template('projects/projects.html',
                            title='Home',
-                           user=models.Resources.query.all())
+                           user=models.Resource.query.all())
 
 
+@app.route('/tasks', methods=['GET','POST'])
+def tasks():
+    return render_template('tasks/tasks.html',
+                           title='Home')
+    
+
+@app.route('/resources', methods=['GET','POST'])
+def resources():
+    return render_template('/resources/resources.html',
+                           title='Home')
+    
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('index'))
+    
     form = forms.LoginForm()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
+        print("Valid")
+        
         
     return render_template('login.html', 
                            title='Sign In',

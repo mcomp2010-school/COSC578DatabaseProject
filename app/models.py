@@ -1,6 +1,10 @@
 from app import db
 
-class Resources(db.Model):
+from werkzeug import generate_password_hash, check_password_hash
+
+class Resource(db.Model):
+    #CREATE TABLE ROCUE
+    __tablename__ = 'resources'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     firstName = db.Column(db.String(64), index=True)
     lastName = db.Column(db.String(120), index=True)
@@ -26,6 +30,11 @@ class Resources(db.Model):
     def get_id(self):
         return str(self.id)
         
-
+    def set_password(self, password):
+        self.pwdhash = generate_password_hash(password)
+   
+    def check_password(self, password):
+        return check_password_hash(self.pwdhash, password)
+                               
     def __repr__(self):
-        return '<Resources %r>' % (self.lastName)
+        return '<Resource %r>' % (self.lastName)
