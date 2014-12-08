@@ -57,3 +57,6 @@ target/
 app.db
 
 *.pyc
+/app.db
+app/__pycache__
+__pycache__
