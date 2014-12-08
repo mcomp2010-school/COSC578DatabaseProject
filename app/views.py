@@ -117,6 +117,7 @@ def edit_task(id):
 #@login_required
 def show_new_task():
     form = forms.TaskForm()
+    form.resourceId.choices = [(g.id, g.emailAddress) for g in models.Resource.query.all()]
     if form.validate_on_submit():
         task = models.Task()
         form.populate_obj(task)
