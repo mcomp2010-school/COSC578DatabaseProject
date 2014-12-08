@@ -41,4 +41,4 @@ class TaskForm(Form):
     projectName = StringField('Project Name', validators=[DataRequired()])
     startDate = DateField('Start date', validators=[DataRequired()], format='%m/%d/%Y')
     endDate = DateField('End Date', validators=[DataRequired()], format='%m/%d/%Y')
-    resourceId = IntegerField('Resource Id', validators=[DataRequired()])
+    resourceId = SelectField('Resource ID', choices=[], validators=[DataRequired()])
