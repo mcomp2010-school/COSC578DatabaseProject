@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+<p class=error><strong>Error:</strong> {{ form.errors }}
+{% endif %}
+
+    <div class="row">
+        <div class="col-lg-4">
+            <h1 class="page-header">
+                Project <small> Overview</small>
+            </h1>
+            
+        </div>
+    </div>
+    
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Project</h3>
+                </div>
+                <div class="panel-body">
+                
+  
+  <form action="{{url}}" method=post>
+
+    {{ form.hidden_tag() }}
+ <p>
+    {{ form.projectName.label }}
+    {{ form.projectName }}
+ <p>
+    {{ form.projectStartDate.label }}
+    
+    {{ form.projectStartDate }}  mm/dd/yyyy
+   
+   
+ <p>
+    {{ form.projectEndDate.label }}
+    {{ form.projectEndDate }}
+ <p>
+    {{ form.manager.label }}
+    {{ form.manager }}
+ 	<p>
+     {{ form.submit }}
+    <p>
+    {% if button %}
+    <input type=submit value="{{button}}">
+    {% endif %}
+  </form>
+  
+  <a href="/">Back to Main Projects Page</href>
+  
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}

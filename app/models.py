@@ -22,6 +22,11 @@ class Resource(db.Model):
     role = db.Column(db.String(120))
     password = db.Column(db.String(120))
     
+    def __init__(self, name=None, email=None):
+        self.firstName = name
+        self.lastName = email
+        
+        
     def is_authenticated(self):
         return True
 
@@ -43,10 +48,9 @@ class Resource(db.Model):
     def __repr__(self):
         return '<Resource %r>' % (self.lastName)
 
-    
 class Project(db.Model):
-    #Create Table Projects
-    projectName = db.Column(db.String(120), primary_key = True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    projectName = db.Column(db.String(120), unique=True)
     projectStartDate = db.Column(db.Date)
     projectEndDate = db.Column(db.Date)
     manager = db.Column(db.Integer, ForeignKey(Resource.id))
@@ -58,7 +62,7 @@ class Task(db.Model):
     startDate= db.Column(db.Date)
     endDate = db.Column(db.Date)
     empID = db.Column(db.Integer, ForeignKey(Resource.id))
-                            
+    
 class Timesheet(db.Model):
     #Create Table Timesheets
     weekStart = db.Column(db.Date, primary_key=True, unique=True)
@@ -66,7 +70,3 @@ class Timesheet(db.Model):
     projName = column(db.String(120), ForeignKey(Project.projectName))
     taskName = column(db.String(120), ForeignKey(Task.taskName))
     hoursWorked = column(db.Integer)
-    
-    
-    
-   

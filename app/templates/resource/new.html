@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+<p class=error><strong>Error:</strong> {{ form.errors }}
+{% endif %}
+
+    <div class="row">
+        <div class="col-lg-4">
+            <h1 class="page-header">
+                Resource <small> Overview</small>
+            </h1>
+            
+        </div>
+    </div>
+    
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Resource</h3>
+                </div>
+                <div class="panel-body">
+                
+  
+  <form action="{{url}}" method=post>
+
+    {{ form.hidden_tag() }}
+ <p>
+    {{ form.firstName.label }}
+    {{ form.firstName }}
+ <p>
+    {{ form.lastName.label }}
+    {{ form.lastName }}
+ <p>
+    {{ form.phoneNumber.label }}
+    {{ form.phoneNumber }}
+ <p>
+    {{ form.address.label }}
+    {{ form.address }}
+ 	<p>
+     {{ form.city.label }}
+     {{ form.city }}
+    <p>
+     {{ form.state.label }}
+     {{ form.state }}
+    <p>
+     {{ form.zip.label }}
+     {{ form.zip }}
+    <p>
+      {{ form.position.label }}
+      {{ form.position }}
+    <p>
+     {{ form.team.label }}
+     {{ form.team }}
+    <p>
+     {{ form.role.label }}
+     {{ form.role }}
+    <p>
+     {{ form.password.label }}
+     {{ form.password }}
+    <p>
+     {{ form.submit }}
+     
+    <p>
+    {% if button %}
+    <input type=submit value="{{button}}">
+    {% endif %}
+  </form>
+  
+  
+  <a href="/">Back to Main Projects Page</href>
+  
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
