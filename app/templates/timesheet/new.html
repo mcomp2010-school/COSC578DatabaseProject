@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% set active_page = "task" %}
+
+{% block content %}
+
+{% if form.errors %}
+<p class=error><strong>Error:</strong> {{ form.errors }}
+{% endif %}
+
+    <div class="row">
+        <div class="col-lg-4">
+            <h1 class="page-header">
+                Timesheet <small> Overview</small>
+            </h1>
+            
+        </div>
+    </div>
+    
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>Timesheet</h3>
+                </div>
+                <div class="panel-body">
+                
+  
+  <form action="{{url}}" method=post>
+
+    {{ form.hidden_tag() }}
+ <p>
+    {{ form.weekStart.label }}
+    {{ form.weekStart }}
+ <p>
+    {{ form.resourceEmail.label }}
+    {{ form.resourceEmail }}
+ <p>
+    {{ form.projectName.label }}
+    {{ form.projectName }}
+ <p>
+    {{ form.taskName.label }}
+    {{ form.taskName }}
+ 	<p>
+     {{ form.hoursWorked.label }}
+     {{ form.hoursWorked }}
+    <p>
+     {{ form.submit }}
+     
+    <p>
+    {% if button %}
+    <input type=submit value="{{button}}">
+    {% endif %}
+  </form>
+  
+  
+  <a href="/timesheet">Back to Main timesheet Page</href>
+  
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}

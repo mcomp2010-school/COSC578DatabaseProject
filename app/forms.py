@@ -40,3 +40,11 @@ class TaskForm(Form):
     startDate = DateField('Start date', validators=[DataRequired()], format='%m/%d/%Y')
     endDate = DateField('End Date', validators=[DataRequired()], format='%m/%d/%Y')
     resourceId = SelectField('Resource ID', coerce=int, choices=[], validators=[DataRequired()])
+
+class TimesheetForm(Form):
+    weekStart = StringField('Week Start')
+    resourceEmail = StringField('Resource Email')
+    projectName = StringField('Project Name')
+    taskName = StringField('Task')
+    hoursWorked = IntegerField('Hours Worked', validators=[DataRequired()])
+

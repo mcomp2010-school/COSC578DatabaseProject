@@ -184,13 +184,67 @@ def show_new_resource():
         
 ####################################
 
-@app.route('/timesheet', methods=['GET','POST'])
+@app.route('/timesheet', methods=['GET'])
 #@login_required
-def timesheets():
+def timesheet():
+    print("TIME")
+    timesheets = models.Timesheet.query.all()
     return render_template('/timesheet/index.html',
-                           title='Home')
-    
+                           title='Home',
+                           timesheets=timesheets)
 
+@app.route('/timesheet/<id>',methods=['GET','POST'])
+##@login_required
+def edit_timesheet(id):
+    edit = request.args.get('edit') is not None
+    timesheet = models.Timesheet.query.get(int(id))
+    form = None
+    
+    if request.method == 'GET':
+        form = forms.TimesheetForm(obj=resource)
+    elif request.method == 'POST':
+        form = forms.TimesheetForm()
+        
+    if form.validate_on_submit() and request.method == 'POST':
+            form.populate_obj(timesheet)
+            db.session.commit()
+            return redirect("/timesheet")
+    
+    if edit:
+        button = "Update Timesheer"
+    else: 
+        button = ""
+        
+    return render_template('/timesheet/new.html',
+                       form=form,
+                       url='/timesheet/'+id+"?edit",
+                       button=button)
+  
+@app.route('/timesheet/new',methods=['GET','POST'])
+#@login_required
+def show_new_timesheet():
+    form = forms.TimesheetForm()
+    #form.resourceEmail.choices = [(g.emailAddress, g.emailAddress) for g in models.Resource.query.all()]
+    #form.projectName.choices = [(g.projectName, g.projectName) for g in models.Project.query.all()]
+    #form.taskName.choices = [(g.taskName, g.taskName) for g in models.Task.query.all()]
+    
+    if form.validate_on_submit():
+        timesheet = models.Timesheet()
+        
+        form.populate_obj(timesheet)
+        print('---------------------')
+        print(timesheet.resourceEmail)
+        db.session.add(timesheet)
+        db.session.commit()
+        return redirect("/timesheet")
+    else:
+        return render_template('timesheet/new.html',
+                               form=form,
+                               button="Add New Timesheet")
+ 
+
+
+####################################################
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     

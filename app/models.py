@@ -65,8 +65,9 @@ class Task(db.Model):
     resourceId = db.Column(db.Integer, ForeignKey(Resource.id))
     
 class Timesheet(db.Model):
-    weekStart = db.Column(db.Date, primary_key=True, unique=True)
-    empID = column(db.Integer, ForeignKey(Resource.id))
-    projName = column(db.String(120), ForeignKey(Project.projectName))
-    taskName = column(db.String(120), ForeignKey(Task.taskName))
+    id = db.Column(db.Integer, primary_key=True)
+    weekStart = db.Column(db.String,  unique=True)
+    resourceEmail= column(db.String)
+    projectName = column(db.String(120))
+    taskName = column(db.String(120))
     hoursWorked = column(db.Integer)
